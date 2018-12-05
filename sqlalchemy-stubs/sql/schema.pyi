@@ -20,15 +20,16 @@ class SchemaItem(SchemaEventTarget, visitors.Visitable):
 
 class Table(DialectKWArgs, SchemaItem, TableClause):
     __visit_name__: str
-    metadata: Any
-    schema: Any
+    name: str
+    metadata: MetaData
+    schema: Optional[str]
     indexes: Set[Any]
     constraints: Set[Any]
     foreign_keys: Set[Any]
     primary_key: PrimaryKeyConstraint  # type: ignore  # TableClause.primary_key defines this as "ColumnSet"
     fullname: str
     implicit_returning: bool
-    comment: Any
+    comment: T.Optional[str]
     def __new__(cls, *args, **kw): ...
     @property
     def quote_schema(self): ...
@@ -44,11 +45,11 @@ class Table(DialectKWArgs, SchemaItem, TableClause):
     def append_constraint(self, constraint): ...
     def append_ddl_listener(self, event_name, listener): ...
     def get_children(self, column_collections: bool = ..., schema_visitor: bool = ..., **kw): ...
-    def exists(self, bind: Optional[Any] = ...): ...
+    def exists(self, bind: Optional[Any] = ...): bool
     def create(self, bind: Optional[Any] = ..., checkfirst: bool = ...): ...
     def drop(self, bind: Optional[Any] = ..., checkfirst: bool = ...): ...
     def tometadata(self, metadata, schema: Any = ..., referred_schema_fn: Optional[Any] = ...,
-                   name: Optional[Any] = ...): ...
+                   name: Optional[Any] = ...): 'Table'
 
 class Column(SchemaItem, ColumnClause[_T]):
     __visit_name__: str = ...
