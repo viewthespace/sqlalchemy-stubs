@@ -1,4 +1,4 @@
-from typing import Any, Iterator, List, Optional, TypeVar
+from typing import Any, Iterator, Generic, List, Optional, TypeVar
 from . import interfaces
 from .base import InspectionAttr
 from ..sql.selectable import ForUpdateArg
